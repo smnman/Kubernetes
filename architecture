@@ -1,0 +1,12 @@
+1. The Control Plane (The "Brain")
+These components manage the cluster’s state, making global decisions (like scheduling) and detecting/responding to cluster events.
+kube-apiserver: The "front door" of the cluster. All communication (from oc, kubectl, or internal components) goes through the API server.
+etcd: A consistent and highly-available key-value store used as Kubernetes' backing store for all cluster data. SRE Tip: If etcd is down, the cluster state cannot be changed.
+kube-scheduler: Watches for newly created Pods with no assigned node and selects a node for them to run on based on resource requirements (Requests/Limits), affinity/anti-affinity, etc.
+kube-controller-manager: Runs controller processes. It continuously monitors the shared state of the cluster through the API server and makes changes to move the "current state" toward the "desired state" (e.g., if a Pod dies, it starts a new one).
+
+2. The Worker Nodes (The "Muscles")
+These are the machines (VMs or physical servers) where the applications actually run.
+kubelet: An agent that runs on each node in the cluster. It ensures that containers are running in a Pod by following the instructions from the Control Plane.
+kube-proxy: A network proxy that runs on each node, maintaining network rules that allow communication to your Pods from inside or outside the cluster.
+Container Runtime: The software responsible for running containers. OpenShift uses CRI-O.
