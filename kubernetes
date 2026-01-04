@@ -14,3 +14,12 @@ labels:
 kubectl label nodes <node name> labelkey=label vlaue
 
 Node Affinity:
+to see labels in json with jq parser:
+kubectl get node node01 -o json | jq '.metadata.labels'
+
+Create a new deployment named blue with the nginx image and 3 replicas:
+kubectl create deployment blue --image=nginx --replicas=3
+kubecrl create deployment red --image=nginx --replicas=2 --dry-run=client -o yaml > red.yaml 
+
+to edit existing deployment:
+kubectl edit deployment <name>
