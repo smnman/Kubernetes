@@ -61,4 +61,5 @@ You can view the schedulerName field using the kubectl get pod command with a sp
 bash
 kubectl get pod <pod-name> -o jsonpath='{.spec.schedulerName}'
 
-
+to see admission-plugins - disabled/enabled:
+ps -ef | grep kube-apiserver | grep admission-plugins - only if its running as pod.
