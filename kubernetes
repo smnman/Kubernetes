@@ -63,3 +63,11 @@ kubectl get pod <pod-name> -o jsonpath='{.spec.schedulerName}'
 
 to see admission-plugins - disabled/enabled:
 ps -ef | grep kube-apiserver | grep admission-plugins - only if its running as pod.
+
+rollbacks and updating:
+kubectl create -f deployment-definition.yml
+kubectl get deployments
+kubectl apply -f deployment-definiton.yml
+kubectl set image deployment/myapp-deploymnet nginx=nginx:1.9.1
+kubectl rollout status deployment/myapp-deployment
+kubectl rollout history deployment/myapp-deployment
