@@ -75,6 +75,7 @@ kubectl rollout history deployment/myapp-deployment
 creating configmap
 kubectl create configmap  webapp-config-map --from-literal=APP_COLOR=darkblue --from-literal=APP_OTHER=disregard
 
+##############################################
 #Update the environment variable on the POD to use only the APP_COLOR key from the newly created ConfigMap.#
 ---
 apiVersion: v1
@@ -94,3 +95,60 @@ spec:
          key: APP_COLOR
     image: kodekloud/webapp-color
     name: webapp-color
+##############################################
+
+secrets:
+creating secret Imperative way:
+kubectl create secret generic <secret-name> --from-literal=key=value
+kubectl create secret generic app-secret --from-literal=DB_HOST=mysql --from-literal=DB_USER=root --from-literal=DB_PASSWORD=abc123!
+kubectl create secret generic app-secret --from-file=app_secret.properites
+
+##############################################
+declartive:
+kubectl create -f
+apiVersion: v1
+kind: Secret
+metdara:
+  name: app-secret
+data:
+  DB_HOST: mysql
+  DB_User: root
+  DB_PASS: 123123!
+##############################################
+
+encoding secrets:
+echo -n 'mysql' | base64
+echo -n 'root' | base64
+echp -n 'passwrd' | base64 
+decode:
+echo -n 'mysql' | base64 --decode
+echo -n 'root' | base64 --decode
+echp -n 'passwrd' | base64 --decode
+
+kubectl get secrets - to view secret
+kubectl describe secrets
+
+Step 1: Get the Existing Pod Definition
+kubectl get pod webapp-pod -o yaml > webapp-pod.yaml
+Step 2:
+Configure the webapp-pod to load environment variables from the db-secret secret you created in the previous task.
+##############################################
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2026-01-30T21:14:28Z"
+  generation: 1
+  labels:
+    name: webapp-pod
+  name: webapp-pod
+  namespace: default
+  resourceVersion: "1062"
+  uid: 5eb8d887-7774-4dc0-9cbd-b1d563f99cae
+spec:
+  containers:
+  - image: kodekloud/simple-webapp-mysql
+    imagePullPolicy: Always
+    envFrom:
+    - secretRef:
+        name: db-secret
+##############################################
