@@ -166,3 +166,10 @@ if the cpu-percent usage goes up 50% its will scale up or down the num of PODS
 
 kubectl get hpa to view hpa settings
 kubectl delete hpa my-app
+
+What is the status of HPA target?
+kubectl get hpa
+kubectl get hpa --watch
+
+To find out what the event FailedGetResourceMetric means in the HPA, run the command below:
+kubectl events hpa nginx-deployment | grep -i "FailedGetResourceMetric"
