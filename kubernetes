@@ -152,3 +152,17 @@ spec:
     - secretRef:
         name: db-secret
 ##############################################
+
+check top of pod:
+kubectl top pod my-pod-name
+
+scale a workload:
+kubectl scale deployment my-app --replicas=3
+
+Horizontal Pod autoSCaler (HPA)
+kubectl autosacle deployment my-app --cpu-percent=50 --min=1 --max=10
+min/max = number of PODS
+if the cpu-percent usage goes up 50% its will scale up or down the num of PODS 
+
+kubectl get hpa to view hpa settings
+kubectl delete hpa my-app
