@@ -173,3 +173,6 @@ kubectl get hpa --watch
 
 To find out what the event FailedGetResourceMetric means in the HPA, run the command below:
 kubectl events hpa nginx-deployment | grep -i "FailedGetResourceMetric"
+
+VPA - (Virtual Pod AutoScaling)
+not comes buildin in kubernets we must install it from git hub
