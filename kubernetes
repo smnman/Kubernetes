@@ -176,3 +176,13 @@ kubectl events hpa nginx-deployment | grep -i "FailedGetResourceMetric"
 
 VPA - (Virtual Pod AutoScaling)
 not comes buildin in kubernets we must install it from git hub
+
+Cluster Maintainence:
+tolerationSeconds - this option mention how much pod can be in downtime 
+kubectl drain node-1 - make node1 to maintainence mode. when you drain a node pods are moving to the worker.
+kubectl uncordon node-1 - make the worker after the upgarde to became avialble to cluster. only after uncordon the pods can be move to the worker.
+Running the uncordon command on a node will not automatically schedule pods on the node. When new pods are created, they will be placed on node01.
+kubectl cordon node-2 - make that new pods cant be scheduled on the this node/worker. like a freeze.
+
+to see on which nodes the deployments are on:
+kubectl get pods -o wide
