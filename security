@@ -1,0 +1,48 @@
+certifications:
+
+to view certificates which connected to apiserver: 
+/etc/kubernets/manifests/kube-apiserver.yaml
+
+openssl 509 -in /etc/kubenerts/pki/apiserver.crt -text -noout # viewing your cert
+
+viewing logs:
+
+issues with certs in kubernets:
+journalctl -u etcd.service -l 
+
+installing by kubeadm
+kubectl logs etcd-master
+
+crictl ps -a
+crictl logs containerID 
+
+--tls-cert-file=/etc/kubernetes/pki/apiserver.crt # file used for kubeapiserver certificate
+--etcd-certfile=/etc/kubernetes/pki/apiserver-etcd-client.crt # Identify the Certificate file used to authenticate kube-apiserver as a client to ETCD Server.
+--kubelet-client-key=/etc/kubernetes/pki/apiserver-kubelet-client.key # Identify the key used to authenticate kubeapi-server to the kubelet server.
+--etcd-cafile=/etc/kubernetes/pki/etcd/ca.crt # Identify the ETCD Server CA Root Certificate used to serve ETCD Server.
+
+What is the Common Name (CN) configured on the Kube API Server Certificate?
+openssl x509 -in /etc/kubernetes/pki/apiserver.crt -text -noout
+
+
+Use this command to generate the base64 encoded format as following: -
+cat akshay.csr | base64 -w 0
+
+Finally, save the below YAML in a file and create a CSR name akshay as follows: -
+---
+apiVersion: certificates.k8s.io/v1
+kind: CertificateSigningRequest
+metadata:
+  name: akshay
+spec:
+  groups:
+  - system:authenticated
+  request: <Paste the base64 encoded value of the CSR file>
+  signerName: kubernetes.io/kube-apiserver-client
+  usages:
+  - client auth
+
+  What is the Condition of the newly created Certificate Signing Request object?
+  kubectl get csr
+  kubectl certificate approve akshay
+kubectl apply -f akshay-csr.yaml
